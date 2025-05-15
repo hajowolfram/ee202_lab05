@@ -3,15 +3,15 @@
 #include <Arduino.h>
 
 // pin declarations
-const int clkA      = XX;
-const int da        = XX;
-const int rstA      = XX;
-const int clkB      = XX;
-const int db        = XX;
-const int rstB      = XX;
+const int clkA = 32;
+const int datA = 33;
+const int rstA = 25;
+const int clkB = 19;
+const int datB = 18;
+const int rstB = 17;
 
 // delay between LEDs in microseconds (default 1 sec)
-uint32_t delayTimeUs = 1'000'000;
+uint32_t delayTimeUs = 1000000;
 
 void resetMatrix() {
   // reset the matrix by turning off all transistors.
@@ -23,14 +23,14 @@ void resetMatrix() {
 
 void shiftOneBitA(uint8_t d) {
   // shift single bit d into register A
-  digitalWrite(da, d);
+  digitalWrite(datA, d);
   digitalWrite(clkA, HIGH);
   digitalWrite(clkA, LOW);
 }
 
 void shiftOneBitB(uint8_t d) {
   // shift single bit d into register B
-  digitalWrite(db, d);
+  digitalWrite(datB, d);
   digitalWrite(clkB, HIGH);
   digitalWrite(clkB, LOW);
 }
@@ -44,26 +44,21 @@ void checkInput() {
 }
 
 void setup() {
-  // enable serial communication
   Serial.begin(115200);
-
-  // initialize pins
   pinMode(clkA, OUTPUT);
-  pinMode(da,   OUTPUT);
+  pinMode(datA,   OUTPUT);
   pinMode(rstA, OUTPUT);
   pinMode(clkB, OUTPUT);
-  pinMode(db,   OUTPUT);
+  pinMode(datB,   OUTPUT);
   pinMode(rstB, OUTPUT);
 
-  // default outputs
   digitalWrite(clkA, LOW);
-  digitalWrite(da,   LOW);
+  digitalWrite(datA,   LOW);
   digitalWrite(rstA, HIGH);
   digitalWrite(clkB, LOW);
-  digitalWrite(db,   LOW);
+  digitalWrite(datB,   LOW);
   digitalWrite(rstB, HIGH);
 
-  // reset the matrix
   resetMatrix();
 }
 
