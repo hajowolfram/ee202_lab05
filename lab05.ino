@@ -24,9 +24,14 @@ inline void shiftOneBit(int clk, int pin, uint8_t d) {
 }
 
 inline void checkInput() {
-  while (Serial.available() > 0) {
-    DELAY_TIME_US = Serial.parseInt();
-    Serial.println(DELAY_TIME_US);
+  if (Serial.available() > 0) {
+    int input = Serial.parseInt();
+    if (input > 0) {
+      DELAY_TIME_US = Serial.parseInt();
+      Serial.println(DELAY_TIME_US);
+    } else {
+      Serial.println("Invalid input");
+    }
   }
 }
 
