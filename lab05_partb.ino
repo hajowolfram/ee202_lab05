@@ -8,7 +8,7 @@ const int rstB = 17;
 
 volatile uint8_t curr_row = 0;
 
-uint32_t delay_time_us = 1000000;  // 1 second in microseconds
+uint32_t delay_time_us = 2000;  // 1 second in microseconds
 hw_timer_t* led_timer = nullptr;
 portMUX_TYPE timer_mux = portMUX_INITIALIZER_UNLOCKED;
 
@@ -18,7 +18,7 @@ uint8_t mat[3][3] = {
   {1, 0, 1}
 };
 
-void reset_matrix() {
+inline void reset_matrix() {
   for (int i = 0; i < 3; i++) {
     shift_one_bit_a(1);
   }
@@ -43,13 +43,12 @@ void IRAM_ATTR animation_handler() {
   reset_matrix();
   curr_row = (curr_row + 1) % 3;
   shift_one_bit_a(LOW);
-  for (uint8_t r = curr_row + 1; r < 3; ++r) {
+  for (uint8_t r = 0; r < curr_row; r++) {
     shift_one_bit_a(HIGH);
   }
   for (uint8_t col = 0; col < 3; col++) {
     shift_one_bit_b(mat[curr_row][2 - col]);
   }
-
   portEXIT_CRITICAL_ISR(&timer_mux);
 }
 
